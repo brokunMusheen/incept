@@ -1,0 +1,81 @@
+---
+title: Welcome to Middleman
+---
+
+<div class="app">
+    <div class="row">
+        <div class="small-12 columns callout secondary">
+            <p><strong>Estimated Hours: </strong> {{ estimate.hours }}</p>
+            <p v-if="estimate.notes.length">
+                <strong>Notes</strong>
+                <ul>
+                    <li v-for="note in estimate.notes">{{ note }}</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 columns text-center">
+            <h3>Site Info</h3>
+            <div class="row">
+                <div class="small-12 columns">
+                    <div class="input-group">
+                        <span class="input-group-label">Site Name</span>
+                        <input class="input-group-field" type="text" v-model="name" placeholder="ex: broco.com"></input>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-label">Client</span>
+                        <input class="input-group-field" type="text" v-model="client" placeholder="ex: BRO"></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" v-if="showHosting">
+        <div class="small-12 columns text-center">
+            <h3>Hosting Account</h3>
+
+            <div class="row">
+                <div class="small-6 columns callout" v-on:click="pickHosting('new')" v-bind:class="{ 'success' : existingHost === false }">
+                    <strong>New</strong>
+                </div>
+                <div class="small-6 columns callout" v-on:click="pickHosting('existing')" v-bind:class="{ 'success' : existingHost === true }">
+                    <strong>Existing</strong>
+                    <div v-if="showExistingHosting">
+                        <div class="input-group">
+                            <span class="input-group-label">Host</span>
+                            <input class="input-group-field" type="text" v-model="hostName" placeholder="ex: Bluehost"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" v-if="showFeatures">
+        <div class="small-12 columns text-center">
+            <h3>Features</h3>
+            <ul>
+                <li>
+                    <input id="feature_cms" type="checkbox" value="1" v-model="features.cms"><label for="feature_cms">Do they want to manage content themselves?</label>
+                </li>
+                <li>
+                    <input id="feature_contact" type="checkbox" value="1" v-model="features.contact"><label for="feature_contact">Will the site have a contact form?</label>
+                </li>
+                <li>
+                    <input id="feature_social" type="checkbox" value="1" v-model="features.social"><label for="feature_social">Will the site interact with any social networks? <small>(Beyond just linking to their profile.)</small></label>
+                    <ul v-if="showSocial">
+                        <li>
+                            <input id="feature_social_twitter" type="checkbox" value="1" v-model="features.social_twitter"><label for="feature_social_twitter">Twitter</label>
+                        </li>
+                        <li>
+                            <input id="feature_social_facebook" type="checkbox" value="1" v-model="features.social_facebook"><label for="feature_social_facebook">Facebook</label>
+                        </li>
+                        <li>
+                            <input id="feature_social_youtube" type="checkbox" value="1" v-model="features.social_youtube"><label for="feature_social_youtube">Youtube</label>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
