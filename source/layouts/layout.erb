@@ -34,14 +34,8 @@ var site = new Vue({
         hostName: null,
         defaultHost: 'aws',
         existingHost: null,
-        features: {
-            cms: false,
-            contact: false,
-            social: false,
-            social_twitter: false,
-            social_facebook: false,
-            social_youtube: false
-        },
+        features: <%= JSON.generate(data.features) %>,
+        selections: [],
         baseHours: 8
     },
     computed: {
@@ -64,35 +58,30 @@ var site = new Vue({
             var total = this.baseHours;
             var notes = [];
 
-            if(this.existingHost === false) {
-                total += 4;
-                notes.push("Hosting fees start at $20/month");
-            }
+            var that = this;
 
-            if(this.features.cms) {
-                total += 40;
-            }
+            this.selections.forEach(function(el) {
+                var feature_id = el.split('-');
 
-            if(this.features.contact) {
-                total += 3;
-                notes.push("We will need the name of their email provider - e.g: Gmail, Exchange, etc")
-            }
-
-            if(this.features.social) {
-                total += 8;
-
-                if(this.features.social_twitter) {
-                    total += 3;
+                if(feature_id.length == 1) {
+                    // el is a top-level feature
+                    var feature = that.features[feature_id[0]];
+                } else {
+                    // el is a feature option
+                    var feature = that.features[feature_id[0]]['options'][feature_id[1]];
+                    if( ! that.featureSelected(feature_id[0])) {
+                        return;
+                    }
                 }
 
-                if(this.features.social_facebook) {
-                    total += 5;
+                if(feature.hasOwnProperty('hours')) {
+                    total += feature.hours;
                 }
 
-                if(this.features.social_youtube) {
-                    total += 5;
+                if(feature.hasOwnProperty('notes')) {
+                    notes.push(feature.notes);
                 }
-            }
+            });
 
             return {
                 hours: total,
@@ -112,6 +101,9 @@ var site = new Vue({
 
                 this.existingHost = true;
             }
+        },
+        featureSelected: function(feature_name) {
+            return this.selections.indexOf(feature_name) !== -1;
         }
     }
 });

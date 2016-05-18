@@ -1,0 +1,24 @@
+cms:
+    label: Will the content on their website change frequently?
+    hours: 40
+
+videos:
+    label: Will there be videos on the site?
+    hours: 0
+
+contact:
+    label: Will there be a contact form?
+    hours: 4
+    notes: "We need to know their current email provider: (Google Apps, MS Exchange, etc)"
+
+social:
+    label: Will the site interact with any social networks?
+    hours: 3
+    options:
+        twitter:
+            label: Twitter
+            hours: 2
+
+        facebook:
+            label: Facebook
+            hours: 3

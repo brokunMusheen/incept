@@ -55,27 +55,20 @@ title: Estimator
         <div class="small-12 columns text-center">
             <h3>Features</h3>
             <ul>
-                <li>
-                    <input id="feature_cms" type="checkbox" value="1" v-model="features.cms"><label for="feature_cms">Do they want to manage content themselves?</label>
-                </li>
-                <li>
-                    <input id="feature_contact" type="checkbox" value="1" v-model="features.contact"><label for="feature_contact">Will the site have a contact form?</label>
-                </li>
-                <li>
-                    <input id="feature_social" type="checkbox" value="1" v-model="features.social"><label for="feature_social">Will the site interact with any social networks? <small>(Beyond just linking to their profile.)</small></label>
-                    <ul v-if="showSocial">
-                        <li>
-                            <input id="feature_social_twitter" type="checkbox" value="1" v-model="features.social_twitter"><label for="feature_social_twitter">Twitter</label>
-                        </li>
-                        <li>
-                            <input id="feature_social_facebook" type="checkbox" value="1" v-model="features.social_facebook"><label for="feature_social_facebook">Facebook</label>
-                        </li>
-                        <li>
-                            <input id="feature_social_youtube" type="checkbox" value="1" v-model="features.social_youtube"><label for="feature_social_youtube">Youtube</label>
-                        </li>
-                    </ul>
-                </li>
+                <template v-for="(feature, feature_data) in features">
+                    <li>
+                        <input id="feature_{{ feature }}" type="checkbox" name="name" v-model="selections" value="{{ feature }}"><label for="feature_{{ feature }}">{{ feature_data.label }}</label>
+                        <ul v-if="featureSelected(feature)">
+                            <template v-for="(option, option_data) in feature_data.options">
+                                <li>
+                                    <input id="feature_{{ feature }}_{{ option }}" type="checkbox" v-model="selections" value="{{ feature }}-{{ option }}"><label for="feature_{{ feature }}_{{ option }}">{{ option_data.label }}</label>
+                                </li>
+                            </template>
+                        </ul>
+                    </li>
+                </template>
             </ul>
+
         </div>
     </div>
 </div>
